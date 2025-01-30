@@ -24,7 +24,7 @@ export class RecipeDetailComponent {
           this.id = +params['id'];
           this.recipe = this.recipeService.getRecipe(this.id);
         }
-      )
+      );
   }
 
   onEditRecipe() {
@@ -33,6 +33,11 @@ export class RecipeDetailComponent {
 
   onAddToShoppingList() {
     this.recipeService.addIngredientsToShoppingList(this.recipe.ingredients);
+  }
+
+  onDeleteRecipe(){
+    this.recipeService.deleteRecipe(this.id);
+    this.router.navigate(['/recipes']);
   }
 
 }
