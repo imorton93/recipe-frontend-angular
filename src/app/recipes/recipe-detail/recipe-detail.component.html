@@ -42,7 +42,9 @@
 </div>
 <div class="row">
     <!-- ADDITIONAL NOTES  -->
-    <div class="col-xs-12">
+    
+    <div class="col-xs-12" *ngIf="recipe.getAdditionalNotes() !== ''">
+        <h3>Notes:</h3>
         {{ recipe.getAdditionalNotes() }}
     </div>
 </div>
