@@ -11,12 +11,12 @@ export class HeaderComponent {
     constructor(private dataStorageService: DataStorageService) {}
 
 
-    onSaveData(){
-        this.dataStorageService.storeRecipes();
-    }
+    // onSaveData(){
+    //     this.dataStorageService.storeRecipes();
+    // }
 
-    onFetchData(){
-        this.dataStorageService.fetchRecipes();
-    }
+    // onFetchData(){
+    //     this.dataStorageService.fetchRecipes();
+    // }
 
 }

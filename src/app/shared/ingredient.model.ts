@@ -1,7 +1,8 @@
+
+//Ingredient models
 export class Ingredient {
-    constructor(public name: string, public amount: number) {
+    constructor(public name: string, public amount: string) {
         this.name = name;
         this.amount = amount;
-
     }
 }

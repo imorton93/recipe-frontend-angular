@@ -32,7 +32,7 @@ export class RecipeDetailComponent {
   }
 
   onAddToShoppingList() {
-    this.recipeService.addIngredientsToShoppingList(this.recipe.ingredients);
+    this.recipeService.addIngredientsToShoppingList(this.recipe.getIngredients());
   }
 
   onDeleteRecipe(){

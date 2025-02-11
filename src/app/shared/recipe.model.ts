@@ -1,4 +1,4 @@
-import { Ingredient } from "../shared/ingredient.model";
+import { Ingredient } from "./ingredient.model";
 
 export class Recipe {
     private name: string;
@@ -7,7 +7,7 @@ export class Recipe {
     private additionalNotes: string;
     private imageUrl?: string;
     private website?: string;
-    
+
     constructor(name: string, ingredients: Ingredient[], instructions: string[], additionalNotes: string = "") {
         this.name = name;
         this.ingredients = ingredients;
@@ -31,31 +31,12 @@ export class Recipe {
         return this.additionalNotes;
     }
 
-    public getImageUrl(): string {
-        if(this.imageUrl === undefined){
-            return "";
-        }
+    public getImageUrl(): string | undefined {
         return this.imageUrl;
     }
 
-    public getWebsite(): string {
-        if(this.website === undefined){
-            return "";
-        }
+    public getWebsite(): string | undefined {
         return this.website;
     }
-
-    public setImageUrl(newImageUrl: string): void {
-        this.imageUrl = newImageUrl;
-    }
-
-    public setWebsite(newWebsite: string): void {
-        this.website = newWebsite;
-    }
-
-    public setName(newName: string): void {
-        this.name = newName;
-    }
-
 
 }

@@ -8,24 +8,29 @@ import { Subject } from 'rxjs';
 @Injectable()
 export class RecipeService {
     recipesChanged = new Subject<Recipe[]>();
-
-    private recipes: Recipe[] = [
-        new Recipe('Tasty Schnitzel',
-            'This is simply a test',
-            'https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/0c19a4f2-e566-4d27-ac0b-111fb11d7440/d15lcm9-3a2d2a31-80ff-453c-a41f-7692dad390a1.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcLzBjMTlhNGYyLWU1NjYtNGQyNy1hYzBiLTExMWZiMTFkNzQ0MFwvZDE1bGNtOS0zYTJkMmEzMS04MGZmLTQ1M2MtYTQxZi03NjkyZGFkMzkwYTEuanBnIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.skh2x5QlKLV5veFSSG4scLPUcoFAPlKVeV_TUkkHXvc',
-            [
-                new Ingredient('Meat', 1),
-                new Ingredient('French Fries', 20)
-
-            ]),
-        new Recipe('Big Fat Burger',
-            'This is simply a test',
-            'https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/0c19a4f2-e566-4d27-ac0b-111fb11d7440/d15lcm9-3a2d2a31-80ff-453c-a41f-7692dad390a1.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcLzBjMTlhNGYyLWU1NjYtNGQyNy1hYzBiLTExMWZiMTFkNzQ0MFwvZDE1bGNtOS0zYTJkMmEzMS04MGZmLTQ1M2MtYTQxZi03NjkyZGFkMzkwYTEuanBnIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.skh2x5QlKLV5veFSSG4scLPUcoFAPlKVeV_TUkkHXvc',
-            [
-                new Ingredient('Buns', 2),
-                new Ingredient('Meat', 1)
-            ])
+    testIngredients: Ingredient[] = [
+        new Ingredient("boneless, skinless chicken breasts", "4"),
+        new Ingredient("tsp smoked paprika", "2 1/2"),
+        new Ingredient("tsp brown sugar", "2"),
+        new Ingredient("tsp salt", "1 1/2"),
+        new Ingredient("tsp garlic powder", "1 1/2"),
+        new Ingredient("tsp onion powder", "1"),
+        new Ingredient("tsp freshly cracked black pepper", "1/2"),
+        new Ingredient("tsp cayenne pepper", "1/2"),
+        new Ingredient("Tbsp olive oil", "1")
+    ];
+    testInstructions: string[] = [
+        "Start by making the brine. In a large bowl add the kosher salt, granulated sugar, and water. Whisk until the salt and sugar are completely dissolved.",
+        "Place the chicken breasts on a cutting board, cover them with plastic wrap, then use a rolling pin or a meat mallet to gently pound the chicken breast until the entire breast is an even thickness from one end to the other (about 1/2 to 3/4 inch thick).",
+        "Place the chicken breasts in the brine mixture, cover the bowl with plastic wrap, and place the bowl in the refrigerator for 30 minutes.",
+        "Preheat the oven to 425°F. In a small bowl mix the smoked paprika, brown sugar, salt, garlic powder, onion powder, freshly cracked black pepper, and cayenne pepper.",
+        "After 30 minutes remove the chicken breasts from the brine and rinse under cold water. Pat the chicken dry with paper towels and allow it to come to room temperature for at least 10 minutes.",
+        "Now drizzle the olive oil over both sides of the chicken breasts, then generously coat both sides with the seasoning blend. Rub the seasoning into the breasts with your hands making sure the entire chicken breast is evenly coated with spices.",
+        "Place the seasoned chicken breasts in a large 9×13-inch baking dish. Bake uncovered for 18-20 minutes or until the internal temperature reaches 165°F.",
+        "Remove the chicken from the oven and allow it to rest for a few minutes so the juices can redistribute throughout the breast. Serve and enjoy!"
     ]
+    testRecipe: Recipe = new Recipe("Baked Chicken Breast Recipe", this.testIngredients,  this.testInstructions);
+    private recipes: Recipe[] = [this.testRecipe];
     
     getRecipes() {
         return this.recipes.slice(); //only get a copy

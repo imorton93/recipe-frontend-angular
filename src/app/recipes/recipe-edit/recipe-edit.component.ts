@@ -32,10 +32,25 @@ export class RecipeEditComponent {
 
 
   onSubmit(){
-    const newRecipe = new Recipe(this.recipeForm.value['name'],
-       this.recipeForm.value['description'], 
-       this.recipeForm.value['imagePath'],
-      this.recipeForm.value['ingredients']);
+    let instructionsArr: string[] = [];
+
+    this.recipeForm.value['instructions'].forEach((item) => {
+      instructionsArr.push(item.instruction);
+    })
+
+    const newRecipe = new Recipe(
+      this.recipeForm.value['name'],
+      this.recipeForm.value['ingredients'], 
+      instructionsArr,
+      this.recipeForm.value['additionalNotes']
+    );
+    
+    newRecipe.setImageUrl(this.recipeForm.value['imagePath']);
+    newRecipe.setWebsite(this.recipeForm.value['website']);
+    
+    
+
+    
     console.log(this.recipeForm);
     if (this.editMode){
       this.recipeService.updateRecipe(this.id, newRecipe);
@@ -48,41 +63,91 @@ export class RecipeEditComponent {
   //called whenever route params change
   private initForm() {
     let recipeName = '';
-    let recipeImagePath = '';
-    let recipeDescription = '';
+    let recipeImageUrl = '';
+    let recipeWebsite = '';
+    let recipeAdditionalNotes = '';
     let recipeIngredients = new FormArray([]);
+    let recipeInstructions = new FormArray([]);
 
     if (this.editMode) {
       const recipe = this.recipeService.getRecipe(this.id);
-      recipeName = recipe.name;
-      recipeImagePath = recipe.imagePath;
-      recipeDescription = recipe.description;
+      recipeName = recipe.getName();
+      recipeImageUrl= recipe.getImageUrl();
+      recipeAdditionalNotes = recipe.getAdditionalNotes();
+      recipeWebsite = recipe.getWebsite();
       if (recipe['ingredients']) {
-        for (let ingredient of recipe.ingredients) {
+        for (let ingredient of recipe.getIngredients()) {
           recipeIngredients.push(
             new FormGroup({
               'name': new FormControl(ingredient.name, Validators.required),
               'amount': new FormControl(ingredient.amount, [
-                Validators.required,
-                Validators.pattern(/^[1-9]+[0-9]*$/)
+                Validators.required
               ])
             })
           );
         }
       }
+      for (let instruction of recipe.getInstructions()) {
+        recipeInstructions.push(
+          new FormGroup({
+            'instruction': new FormControl(instruction, Validators.required)
+          })
+        )
+      }
     }
 
     this.recipeForm = new FormGroup({
       'name': new FormControl(recipeName, Validators.required),
-      'imagePath': new FormControl(recipeImagePath, Validators.required),
-      'description': new FormControl(recipeDescription, Validators.required),
-      'ingredients': recipeIngredients
+      'imagePath': new FormControl(recipeImageUrl),
+      'website': new FormControl(recipeWebsite),
+      'additionalNotes': new FormControl(recipeAdditionalNotes),
+      'ingredients': recipeIngredients,
+      'instructions': recipeInstructions
     });
+
+    this.resizeInstructions();
+    
 
   }
 
-  get controls() {
+  //resize instruction in initForm
+  //increases size of input area to show the entirety of the instruction
+  private resizeInstructions() {
+    const instructions = (this.recipeForm.get('instructions') as FormArray).controls;
+
+    instructions.forEach((ctrl, index) => {
+      const instructionField = ctrl.get('instruction')?.value;
+
+      setTimeout(() => {
+        const textarea = document.querySelectorAll('textarea')[index] as HTMLTextAreaElement;
+        if (textarea) {
+          textarea.style.height = 'auto';
+          textarea.style.height = textarea.scrollHeight + 'px';;
+        }
+      }, 0)
+    })
+  }
+
+  get instructionControls() {
+    return (<FormArray>this.recipeForm.get('instructions')).controls;
+  }
+
+
+  get ingredientControls() {
     return (<FormArray>this.recipeForm.get('ingredients')).controls;
+  }
+
+
+  onAddInstruction(){
+    (<FormArray>this.recipeForm.get('instructions')).push(
+      new FormGroup({
+        'instruction': new FormControl(null, Validators.required)
+      })
+    )
+  }
+
+  onDeleteInstruction(index: number){
+    (<FormArray>this.recipeForm.get('instructions')).removeAt(index);
   }
 
 
@@ -91,8 +156,7 @@ export class RecipeEditComponent {
       new FormGroup({
         'name': new FormControl(null, Validators.required),
         'amount': new FormControl(null, [
-          Validators.required,
-          Validators.pattern(/^[1-9]+[0-9]*$/)
+          Validators.required
         ])
       })
     )
@@ -105,6 +169,12 @@ export class RecipeEditComponent {
 
   onDeleteIngredient(index: number){
     (<FormArray>this.recipeForm.get('ingredients')).removeAt(index);
+  }
+
+  autoResize(event: Event) {
+    const textarea = event.target as HTMLTextAreaElement;
+    textarea.style.height = 'auto'; // Reset height to recalculate
+    textarea.style.height = textarea.scrollHeight + 'px'; // Set new height
   }
 
 }

@@ -7,6 +7,7 @@
                     <button type="button" class="btn btn-danger" (click)="onCancel()">Cancel</button>
                 </div>
             </div>
+            <!-- NAME INPUT -->
             <div class="row">
                 <div class="col-xs-12">
                     <div class="form-group">
@@ -16,11 +17,11 @@
                         id="name"
                         formControlName="name"
                         class="form-control"
-                        
                         >
                     </div>
                 </div>
             </div>
+            <!-- IMG URL INPUT  -->
             <div class="row">
                 <div class="col-xs-12">
                     <div class="form-group">
@@ -40,28 +41,53 @@
                     <img [src]="imagePath.value" class="img-responsive">
                 </div>
             </div>
+
+            <!-- WEBSITE INPUT  -->
             <div class="row">
                 <div class="col-xs-12">
                     <div class="form-group">
-                        <label for="description">Description</label>
-                        <textarea 
+                        <label for="website">Image URL</label>
+                        <input 
                         type="text"
-                        id="description"
+                        id="website"
+                        formControlName="website"
                         class="form-control"
-                        formControlName="description"
-                        rows="6"></textarea>
+                        #imagePath
+                        >
                     </div>
                 </div>
             </div>
+
+            <!-- INSTRUCTIONS INPUT  -->
+            <div class="row">
+                <div class="col-xs-12" formArrayName="instructions">
+                    <div class="row" *ngFor="let instructionCtrl of instructionControls; let i = index" [formGroupName]="i" style="margin-top: 10px;">
+                        <div class="col-xs-8">
+                            <textarea type="text" class="form-control" rows="2" style="overflow: hidden; resize: none;" formControlName="instruction" (input)="autoResize($event)"></textarea>
+                        </div>
+                        <div class="col-xs-2">
+                            <button class="btn btn-danger" type="button" (click)="onDeleteInstruction(i)">X</button>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <button type="button" class="btn btn-success" (click)="onAddInstruction()">Add Ingredient</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- INGREDIENTS INPUT -->
             <div class="row">
                 <div class="col-xs-12" formArrayName="ingredients">
-                    <div class="row" *ngFor="let ingredientCtrl of controls; let i = index" [formGroupName]="i" style="margin-top: 10px;">
+                    <div class="row" *ngFor="let ingredientCtrl of ingredientControls; let i = index" [formGroupName]="i" style="margin-top: 10px;">
                         <div class="col-xs-8">
                             <input type="text" class="form-control" formControlName="name">
                         </div>
                         <div class="col-xs-2">
                             <input 
-                            type="number"
+                            type="text"
                             class="form-control"
                             formControlName = "amount"
                             >
@@ -75,6 +101,21 @@
                         <div class="col-xs-12">
                             <button type="button" class="btn btn-success" (click)="onAddIngredient()">Add Ingredient</button>
                         </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ADDITIONAL NOTES INPUT  -->
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="form-group">
+                        <label for="additionalNotes">Additional Notes</label>
+                        <textarea 
+                        type="text"
+                        id="additionalNotes"
+                        class="form-control"
+                        formControlName="additionalNotes"
+                        rows="6"></textarea>
                     </div>
                 </div>
             </div>
