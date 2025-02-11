@@ -40,3 +40,11 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+
+
+
+#environment variables
+.env
+
+#notes
+notes.txt
