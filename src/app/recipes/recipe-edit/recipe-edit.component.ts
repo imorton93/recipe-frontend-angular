@@ -72,6 +72,7 @@ export class RecipeEditComponent {
       this.recipeService.addRecipe(this.recipe).subscribe(
         response => {
           console.log("Recipe added successfully", response);
+          this.recipeService.notifyRecipesChanged();
           this.onCancel();
         }
       )
@@ -190,6 +191,72 @@ export class RecipeEditComponent {
     const textarea = event.target as HTMLTextAreaElement;
     textarea.style.height = 'auto'; // Reset height to recalculate
     textarea.style.height = textarea.scrollHeight + 'px'; // Set new height
+  }
+
+  setIngredients(ingredientsArray: string[]){
+    const ingredientsFormArray = this.recipeForm.get('ingredients') as FormArray;
+
+    ingredientsFormArray.clear()
+
+    ingredientsArray.forEach(ingredient => {
+      ingredientsFormArray.push(
+        new FormGroup({
+          'name': new FormControl(ingredient, Validators.required)
+        })
+      )
+    })
+  }
+
+  setInstructions(instructionsArray: string[]){
+    const instructionsFormArray = this.recipeForm.get('instructions') as FormArray;
+    instructionsFormArray.clear();
+
+    instructionsArray.forEach(instruction => {
+      instructionsFormArray.push(
+        new FormGroup({
+          'instruction': new FormControl(instruction, Validators.required)
+        })
+      )
+    })
+  }
+
+
+  //populate the form fields based on data received from the recipe parser
+  populateFormFields(data){
+    if(data.title){
+      this.recipeForm.get('name')?.setValue(data.title);
+    }
+    if(data.image){
+      this.recipeForm.get('imagePath')?.setValue(data.image);
+    }
+    if(data.servings){
+      const servings = parseInt(data.servings.match(/\d+/)?.[0] || '', 10) || null;
+      this.recipeForm.get('servings')?.setValue(servings);
+    }
+    if(data.ingredients){
+      this.setIngredients(data.ingredients);
+    }
+    if(data.instructions){
+      const instructionsArray = data.instructions.split('\n');
+      this.setInstructions(instructionsArray);
+    }
+    this.resizeInstructions();
+    
+  }
+
+  //calls recipeServices scrape Recipe to use backend recipe scraper
+  autoPopulateFields() {
+    const websiteUrl = this.recipeForm.get('website')?.value;
+    
+    this.recipeService.scrapeRecipe(websiteUrl).subscribe(
+      (data) => {
+        console.log(data);
+        this.populateFormFields(data);
+      },
+      (error) => {
+        console.error('Failed to scrape recipe:', error);
+      }
+    )
   }
 
 }

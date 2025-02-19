@@ -40,8 +40,14 @@ export class RecipeDetailComponent {
 
 
   onDeleteRecipe(){
-    this.recipeService.deleteRecipe(this.id);
-    this.router.navigate(['/recipes']);
+    this.recipeService.deleteRecipe(this.id).subscribe(
+      response => {
+        console.log("Recipe deleted successfully", response);
+        this.recipeService.notifyRecipesChanged();
+        this.router.navigate(['/recipes']);
+      }
+    );
+    
   }
 
 }

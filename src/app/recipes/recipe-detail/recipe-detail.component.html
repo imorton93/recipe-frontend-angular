@@ -19,7 +19,7 @@
 
     <h1 class="recipe-title">{{ recipe.getName() }}</h1>
     <p class="meta-info" *ngIf="recipe.getServings() !== null" >Serves: {{ recipe.getServings() }}</p>
-    <p class="meta-info" *ngIf="recipe.getWebsite() !== ''">Website: {{ recipe.getWebsite() }}</p>
+    <p class="meta-info" *ngIf="recipe.getWebsite() !== ''">Website: <a [href]="recipe.getWebsite()" target="_blank" rel="noopener noreferrer" >{{ recipe.getWebsite() }}</a></p>
 
     <div class="row mt-4">
         <div class="col-md-6">
