@@ -1,132 +1,137 @@
-<div class="row">
-    <div class="col-sx-12">
-        <form [formGroup]="recipeForm" (ngSubmit)="onSubmit()">
-            <div class="row">
-                <div class="col-xs-12">
-                    <button type="submit" class="btn btn-success" [disabled]="!recipeForm.valid">Save</button>
-                    <button type="button" class="btn btn-danger" (click)="onCancel()">Cancel</button>
-                </div>
+<div class="card recipe-card p-4" *ngIf="recipeForm">
+    <form [formGroup]="recipeForm" (ngSubmit)="onSubmit()">
+        <div class="row">
+            <div class="col-xs-12">
+                <button type="submit" class="btn btn-success" [disabled]="!recipeForm.valid">Save</button>
+                <button type="button" class="btn btn-danger" (click)="onCancel()">Cancel</button>
             </div>
-            <!-- NAME INPUT -->
-            <div class="row">
-                <div class="col-xs-12">
-                    <div class="form-group">
-                        <label for="name">Name</label>
-                        <input 
-                        type="text"
-                        id="name"
-                        formControlName="name"
-                        class="form-control"
-                        [ngClass]="{'invalid-input': recipeForm.get('name').invalid}"
-                        >
-                    </div>
-                </div>
-            </div>
-            <!-- IMG URL INPUT  -->
-            <div class="row">
-                <div class="col-xs-12">
-                    <div class="form-group">
-                        <label for="imagePath">Image URL(optional)</label>
-                        <input 
-                        type="text"
-                        id="imagePath"
-                        formControlName="imagePath"
-                        class="form-control"
-                        #imagePath
-                        >
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-12">
-                    <img [src]="imagePath.value" class="img-responsive">
-                </div>
-            </div>
+        </div>
+        <!-- Name Input  -->
+        <div class="form-group">
+            <label for="name">Name</label>
+            <input 
+            type="text"
+            id="name"
+            formControlName="name"
+            class="form-control"
+            [ngClass]="{'invalid-input': recipeForm.get('name').invalid}"
+            >
+        </div>
 
-            <!-- WEBSITE INPUT  -->
-            <div class="row">
-                <div class="col-xs-12">
-                    <div class="form-group">
-                        <label for="website">Website(optional)</label>
-                        <input 
-                        type="text"
-                        id="website"
-                        formControlName="website"
-                        class="form-control"
-                        #imagePath
-                        >
-                    </div>
+        <!-- WEBSITE INPUT -->
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label for="website">Website(optional)</label>
+                    <input 
+                    type="text"
+                    id="website"
+                    formControlName="website"
+                    class="form-control"
+                    >
                 </div>
             </div>
+        </div>
 
-            <!-- INSTRUCTIONS INPUT  -->
-            <div class="row">
-                <div class="col-xs-12" formArrayName="instructions">
-                    <label>Instructions</label>
-                    <div class="row" *ngFor="let instructionCtrl of instructionControls; let i = index" [formGroupName]="i" style="margin-top: 10px;">
-                        <div class="col-xs-8">
-                            <textarea type="text" class="form-control" rows="2" style="overflow: hidden; resize: none;" formControlName="instruction" (input)="autoResize($event)"
-                            [ngClass]="{'invalid-input': instructionCtrl.get('instruction').invalid}"
-                            ></textarea>
-                        </div>
-                        <div class="col-xs-2">
-                            <button class="btn btn-danger" type="button" (click)="onDeleteInstruction(i)">X</button>
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="row">
-                        <div class="col-xs-12">
-                            <button type="button" class="btn btn-success" (click)="onAddInstruction()">Add Instruction</button>
-                        </div>
-                    </div>
+        <!-- IMG URL Input  -->
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label for="imagePath">Image URL(optional)</label>
+                    <input 
+                    type="text"
+                    id="imagePath"
+                    formControlName="imagePath"
+                    class="form-control"
+                    #imagePath
+                    >
                 </div>
             </div>
-            <br/>
-            <!-- INGREDIENTS INPUT -->
-            <div class="row">
-                <div class="col-xs-12" formArrayName="ingredients">
-                    <label>Ingredients</label>
-                    <div class="row" *ngFor="let ingredientCtrl of ingredientControls; let i = index" [formGroupName]="i" style="margin-top: 10px;">
-                        <div class="col-xs-2">
-                            <input 
-                            type="text"
-                            class="form-control"
-                            formControlName = "amount"
-                            [ngClass]="{'invalid-input': ingredientCtrl.get('amount').invalid}"
-                            >
-                        </div>
-                        <div class="col-xs-8">
-                            <input type="text" class="form-control" formControlName="name"
-                            [ngClass]="{'invalid-input': ingredientCtrl.get('name').invalid}">
-                        </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <img [src]="imagePath.value" class="img-responsive">
+            </div>
+        </div>
+
+        <!-- Servings Input  -->
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label for="servings">Servings(optional)</label>
+                    <input 
+                    type="number"
+                    id="servings"
+                    formControlName="servings"
+                    class="form-control"
+                    >
+                </div>
+            </div>
+        </div>
+        
+        
+
+        <div class="row mt-4">
+            <!-- Ingredients Input  -->
+            <div class="col-md-6" formArrayName="ingredients">
+                <h4 class="section-title">Ingredients</h4>
+                <div class="ingredient-list" *ngFor="let ingredientCtrl of ingredientControls; let i = index" [formGroupName]="i" style="margin-top: 10px;">
+                    <div class="col-xs-8">
+                        <input type="text" class="form-control" formControlName="name"
+                        [ngClass]="{'invalid-input': ingredientCtrl.get('name').invalid}">
+                    </div>
                         
-                        <div class="col-xs-2">
-                            <button class="btn btn-danger" type="button" (click)="onDeleteIngredient(i)">X</button>
-                        </div>
+                    <div class="col-xs-2">
+                        <button class="btn btn-danger" type="button" (click)="onDeleteIngredient(i)">X</button>
                     </div>
-                    <hr>
-                    <div class="row">
-                        <div class="col-xs-12">
-                            <button type="button" class="btn btn-success" (click)="onAddIngredient()">Add Ingredient</button>
-                        </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <button type="button" class="btn btn-success" (click)="onAddIngredient()">Add Ingredient</button>
                     </div>
                 </div>
             </div>
-            <br/>
-            <!-- ADDITIONAL NOTES INPUT  -->
-            <div class="row">
-                <div class="col-xs-12">
-                    <div class="form-group">
-                        <label for="additionalNotes">Additional Notes(optional)</label>
-                        <textarea 
-                        type="text"
-                        id="additionalNotes"
-                        class="form-control"
-                        formControlName="additionalNotes"
-                        rows="6"></textarea>
+
+            <!-- Instructions Input  -->
+            
+            <div class="col-md-6" formArrayName="instructions">
+                <h4 class="section-title">Directions</h4>
+                <div class="directions-list" *ngFor="let instructionCtrl of instructionControls; let i = index" [formGroupName]="i" style="margin-top: 10px;">
+                    <div class="col-xs-8">
+                        <textarea type="text" class="form-control" rows="2" style="overflow: hidden; resize: none;" formControlName="instruction" (input)="autoResize($event)"
+                        [ngClass]="{'invalid-input': instructionCtrl.get('instruction').invalid}"
+                        ></textarea>
+                    </div>
+                    <div class="col-xs-2">
+                        <button class="btn btn-danger" type="button" (click)="onDeleteInstruction(i)">X</button>
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <button type="button" class="btn btn-success" (click)="onAddInstruction()">Add Instruction</button>
                     </div>
                 </div>
             </div>
-        </form>
-    </div>
+            
+        </div>
+
+        <!-- Notes Input  -->
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <h4 class="section-title">Notes:</h4>
+                <div class="form-group">
+                    <label for="additionalNotes">Additional Notes(optional)</label>
+                    <textarea 
+                    type="text"
+                    id="additionalNotes"
+                    class="form-control"
+                    formControlName="additionalNotes"
+                    rows="6"></textarea>
+                </div>
+            </div>
+                
+        </div>
+    </form>
 </div>

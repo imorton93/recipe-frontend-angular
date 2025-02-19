@@ -11,23 +11,35 @@ import { Recipe } from '../recipes.model';
 })
 export class RecipeEditComponent {
   id: number;
+  recipe: Recipe;
   editMode = false;
   recipeForm: FormGroup;
 
 
-  constructor(private route: ActivatedRoute, private recipeService: RecipeService, private router: Router){
-
-  }
+  constructor(private route: ActivatedRoute, private recipeService: RecipeService, private router: Router){}
 
   ngOnInit(){
-    this.route.params
-      .subscribe(
-        (params: Params) => {
-          this.id = +params['id'];
-          this.editMode = params['id'] != null;
-          this.initForm();
-        }
-      );
+    this.route.params.subscribe(params => {
+      this.id = +params['id'];
+      this.editMode = params['id'] != null;
+      if(this.editMode){
+        this.recipeService.getRecipe(this.id).subscribe(
+          (recipeData: Recipe) => {
+            this.recipe = recipeData;
+            this.initForm();
+          },
+          error => {
+            console.error('Error fetching recipe', error);
+            //LATER ADD NAVIGATE TO ERROR PAGE
+          }
+        )
+      }else{
+        this.recipe = new Recipe(null, '', [], [], '', null, '', '');
+        this.initForm();
+
+      }
+      
+    })
   }
 
 
@@ -38,26 +50,32 @@ export class RecipeEditComponent {
       instructionsArr.push(item.instruction);
     })
 
-    const newRecipe = new Recipe(
-      this.recipeForm.value['name'],
-      this.recipeForm.value['ingredients'], 
-      instructionsArr,
-      this.recipeForm.value['additionalNotes']
-    );
-    
-    newRecipe.setImageUrl(this.recipeForm.value['imagePath']);
-    newRecipe.setWebsite(this.recipeForm.value['website']);
-    
-    
 
+    this.recipe.setName(this.recipeForm.value['name']);
+    this.recipe.setIngredients(this.recipeForm.value['ingredients']);
+    this.recipe.setInstructions(instructionsArr);
+    this.recipe.setAdditionalNotes(this.recipeForm.value['additionalNotes']);
+    this.recipe.setServings(this.recipeForm.value['servings']);
+    this.recipe.setImageUrl(this.recipeForm.value['imagePath']);
+    this.recipe.setWebsite(this.recipeForm.value['website']);
     
-    console.log(this.recipeForm);
+    
     if (this.editMode){
-      this.recipeService.updateRecipe(this.id, newRecipe);
+      this.recipeService.updateRecipe(this.id, this.recipe).subscribe(
+        response => {
+          console.log("Recipe updated successfully", response);
+          this.recipeService.notifyRecipesChanged();
+          this.onCancel(); //optionally navigate after successful update
+        }
+      );
     } else {
-      this.recipeService.addRecipe(newRecipe);
+      this.recipeService.addRecipe(this.recipe).subscribe(
+        response => {
+          console.log("Recipe added successfully", response);
+          this.onCancel();
+        }
+      )
     }
-    this.onCancel();
   }
 
   //called whenever route params change
@@ -65,29 +83,28 @@ export class RecipeEditComponent {
     let recipeName = '';
     let recipeImageUrl = '';
     let recipeWebsite = '';
+    let recipeServings = null;
     let recipeAdditionalNotes = '';
     let recipeIngredients = new FormArray([]);
     let recipeInstructions = new FormArray([]);
 
     if (this.editMode) {
-      const recipe = this.recipeService.getRecipe(this.id);
-      recipeName = recipe.getName();
-      recipeImageUrl= recipe.getImageUrl();
-      recipeAdditionalNotes = recipe.getAdditionalNotes();
-      recipeWebsite = recipe.getWebsite();
-      if (recipe['ingredients']) {
-        for (let ingredient of recipe.getIngredients()) {
+      recipeName = this.recipe.getName();
+      recipeImageUrl= this.recipe.getImageUrl();
+      recipeAdditionalNotes = this.recipe.getAdditionalNotes();
+      recipeWebsite = this.recipe.getWebsite();
+      recipeServings = this.recipe.getServings();
+      
+      if (this.recipe['ingredients']) {
+        for (let ingredient of this.recipe.getIngredients()) {
           recipeIngredients.push(
             new FormGroup({
-              'name': new FormControl(ingredient.name, Validators.required),
-              'amount': new FormControl(ingredient.amount, [
-                Validators.required
-              ])
+              'name': new FormControl(ingredient.name, Validators.required)
             })
           );
         }
       }
-      for (let instruction of recipe.getInstructions()) {
+      for (let instruction of this.recipe.getInstructions()) {
         recipeInstructions.push(
           new FormGroup({
             'instruction': new FormControl(instruction, Validators.required)
@@ -102,7 +119,8 @@ export class RecipeEditComponent {
       'website': new FormControl(recipeWebsite),
       'additionalNotes': new FormControl(recipeAdditionalNotes),
       'ingredients': recipeIngredients,
-      'instructions': recipeInstructions
+      'instructions': recipeInstructions,
+      'servings': new FormControl(recipeServings, Validators.min(1)),
     });
 
     this.resizeInstructions();
@@ -155,9 +173,6 @@ export class RecipeEditComponent {
     (<FormArray>this.recipeForm.get('ingredients')).push(
       new FormGroup({
         'name': new FormControl(null, Validators.required),
-        'amount': new FormControl(null, [
-          Validators.required
-        ])
       })
     )
   }

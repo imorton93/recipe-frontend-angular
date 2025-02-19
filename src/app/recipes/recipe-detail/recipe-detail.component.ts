@@ -19,21 +19,25 @@ export class RecipeDetailComponent {
 
   ngOnInit() {
     this.route.params
-      .subscribe(
-        (params: Params) => {
-          this.id = +params['id'];
-          this.recipe = this.recipeService.getRecipe(this.id);
-        }
-      );
+      .subscribe((params: Params) => {
+        this.id = +params['id'];
+        // Subscribe to the observable to get the recipe
+        this.recipeService.getRecipe(this.id)
+          .subscribe(
+            (recipeData: Recipe) => {
+              this.recipe = recipeData;  // Assign the received data to 'recipe'
+            },
+            error => {
+              console.error('Error fetching recipe', error); // Handle errors
+            }
+          );
+    });
   }
 
   onEditRecipe() {
     this.router.navigate(['edit'], {relativeTo: this.route});
   }
 
-  onAddToShoppingList() {
-    this.recipeService.addIngredientsToShoppingList(this.recipe.getIngredients());
-  }
 
   onDeleteRecipe(){
     this.recipeService.deleteRecipe(this.id);

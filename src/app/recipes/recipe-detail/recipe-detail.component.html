@@ -1,15 +1,5 @@
 <div class="row">
     <div class="col-xs-12">
-        <img *ngIf="recipe.getImageUrl() !== ''" [src]="recipe.getImageUrl()" alt="{{ recipe.getName() }}" class="img-responsive">
-    </div>
-</div>
-<div class="row">
-    <div class="col-xs-12">
-        <h1>{{ recipe.getName() }}</h1>
-    </div>
-</div>
-<div class="row">
-    <div class="col-xs-12">
         <div class="btn-group" appDropdown>
             <button type="button" class="btn btn-primary dropdown-toggle">
                 Manage Recipe <span class="caret"></span>
@@ -24,27 +14,35 @@
 </div>
 
 
-<div class="row">
-    <!-- INGREDIENTS  -->
-    <div class="col-6 col-md-4">
-        <h3>Ingredients</h3>
-        <ul class="list-group">
-            <li class="list-group-item" *ngFor="let ingredient of recipe.getIngredients()">{{ ingredient.amount}} {{ ingredient.name }} </li>
-        </ul>
-    </div>
-    <!-- INSTRUCTIONS  -->
-    <div class="col-12 col-md-8">
-        <h3>Ingredients</h3>
-        <ul class="list-group">
-            <li class="list-group-item" *ngFor="let instruction of recipe.getInstructions()">{{ instruction }}</li>
-        </ul>
-    </div>
-</div>
-<div class="row">
-    <!-- ADDITIONAL NOTES  -->
+<div class="card recipe-card p-4" *ngIf="recipe">
+
+
+    <h1 class="recipe-title">{{ recipe.getName() }}</h1>
+    <p class="meta-info" *ngIf="recipe.getServings() !== null" >Serves: {{ recipe.getServings() }}</p>
+    <p class="meta-info" *ngIf="recipe.getWebsite() !== ''">Website: {{ recipe.getWebsite() }}</p>
+
+    <div class="row mt-4">
+        <div class="col-md-6">
+          <h4 class="section-title">Ingredients</h4>
+          <ul class="ingredient-list">
+            <li *ngFor="let ingredient of recipe.getIngredients()">{{ ingredient.amount }} {{ ingredient.name }}</li>
+          </ul>
+        </div>
     
-    <div class="col-xs-12" *ngIf="recipe.getAdditionalNotes() !== ''">
-        <h3>Notes:</h3>
-        {{ recipe.getAdditionalNotes() }}
+        <div class="col-md-6">
+          <h4 class="section-title">Directions</h4>
+          <ol class="directions-list">
+            <li *ngFor="let instruction of recipe.getInstructions()">{{ instruction }}</li>
+          </ol>
+        </div>
     </div>
+
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <h4 class="section-title">Notes:</h4>
+            {{ recipe.getAdditionalNotes() }}
+        </div>
+            
+    </div>
+
 </div>

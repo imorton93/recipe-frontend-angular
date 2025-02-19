@@ -5,3 +5,49 @@
 .invalid-input {
     border: 1px solid red;
 }
+
+.recipe-card {
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    font-family: 'Poppins', sans-serif;
+  
+    .recipe-title {
+      font-family: 'Pacifico', cursive;
+      font-size: 2.5rem;
+    }
+  
+    .sub-title {
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 300;
+    }
+  
+    .meta-info {
+      font-size: 0.9rem;
+      color: #777;
+    }
+  
+    .section-title {
+      font-family: 'Pacifico', cursive;
+      font-size: 1.8rem;
+    }
+  
+    .ingredient-list,
+    .directions-list {
+      list-style: none;
+      padding: 0;
+  
+      li {
+        padding-bottom: 8px;
+        border-bottom: 1px solid #ddd;
+      }
+    }
+  
+    .footer-text {
+      margin-top: 20px;
+      font-size: 0.9rem;
+      color: #555;
+      text-align: center;
+    }
+  }
