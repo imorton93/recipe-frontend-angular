@@ -34,8 +34,12 @@
                   >
                 </div>
                 <button type="button" class="btn btn-danger ms-2" (click)="autoPopulateFields()" [disabled]="!recipeForm.get('website')?.value">Auto-Populate</button>
+                <div *ngIf="errorMessage" class="alert alert-danger">
+                    {{ errorMessage }}
+                </div>
               </div>
             </div>
+            
         </div>
           
 

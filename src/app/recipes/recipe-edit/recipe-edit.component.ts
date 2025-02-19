@@ -14,6 +14,7 @@ export class RecipeEditComponent {
   recipe: Recipe;
   editMode = false;
   recipeForm: FormGroup;
+  errorMessage: string | null = null;
 
 
   constructor(private route: ActivatedRoute, private recipeService: RecipeService, private router: Router){}
@@ -252,9 +253,11 @@ export class RecipeEditComponent {
       (data) => {
         console.log(data);
         this.populateFormFields(data);
+        this.errorMessage = null;
       },
       (error) => {
         console.error('Failed to scrape recipe:', error);
+        this.errorMessage = 'Failed to parse recipe. Please check the URL or try again later.';
       }
     )
   }
