@@ -1,0 +1,51 @@
+.btn-group .btn {
+    padding: 10px;
+    font-size: 16px;
+    min-width: 120px;
+}
+
+.meal-header {
+    background-color: #007bff;  /* Blue background */
+    color: white;  /* White text */
+    padding: 15px;  
+    font-size: 18px;  
+    font-weight: bold;  
+    border-radius: 5px;  
+    margin-bottom: 5px;  
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background 0.3s ease-in-out, transform 0.2s;
+}
+
+/* Meal hover effect */
+.meal-header:hover {
+    background-color: #0056b3;  /* Darker blue */
+    transform: scale(1.02);
+}
+  
+/* Active meal (selected meal) */
+.active-meal {
+    background-color: #ff9800 !important;  /* Orange */
+}
+  
+/* Meal title styling */
+.meal-title {
+    margin: 0;
+}
+  
+  /* Recipe count badge */
+.recipe-count {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 5px 10px;
+    border-radius: 10px;
+}
+  
+/* Recipe list spacing */
+.recipe-list {
+    padding: 10px;
+    background-color: transparent; 
+    border-radius: 5px;
+    margin-bottom: 10px;
+}

@@ -3,6 +3,8 @@ import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { RecipeService } from '../recipe.service';
 import { Recipe } from '../recipes.model';
+import { CategoryService } from '../../shared/category.service';
+import { Category } from '../../shared/category.model';
 
 @Component({
   selector: 'app-recipe-edit',
@@ -15,11 +17,16 @@ export class RecipeEditComponent {
   editMode = false;
   recipeForm: FormGroup;
   errorMessage: string | null = null;
+  // Recipe meal types and Categories
+  mealTypes: string[] = ['Breakfast', 'Lunch', 'Dinner', 'Snack', 'Dessert', 'Drinks'];
+  categories: Category[] = [];
+  selectedCategories: number[] = [];
 
-
-  constructor(private route: ActivatedRoute, private recipeService: RecipeService, private router: Router){}
+  constructor(private route: ActivatedRoute, private recipeService: RecipeService, private router: Router, private categoryService: CategoryService){}
 
   ngOnInit(){
+    this.getCategories();
+
     this.route.params.subscribe(params => {
       this.id = +params['id'];
       this.editMode = params['id'] != null;
@@ -35,7 +42,7 @@ export class RecipeEditComponent {
           }
         )
       }else{
-        this.recipe = new Recipe(null, '', [], [], '', null, '', '');
+        this.recipe = new Recipe(null, '', [], [], '', '', null, '', '',[]);
         this.initForm();
 
       }
@@ -59,9 +66,12 @@ export class RecipeEditComponent {
     this.recipe.setServings(this.recipeForm.value['servings']);
     this.recipe.setImageUrl(this.recipeForm.value['imagePath']);
     this.recipe.setWebsite(this.recipeForm.value['website']);
-    
+    this.recipe.setMealType(this.recipeForm.value['mealType']);
+    console.log("The selected categories: ",this.selectedCategories)
+    this.recipe.setCategories(this.selectedCategories);
     
     if (this.editMode){
+      console.log('Recipe that is being sent', this.recipe)
       this.recipeService.updateRecipe(this.id, this.recipe).subscribe(
         response => {
           console.log("Recipe updated successfully", response);
@@ -86,9 +96,11 @@ export class RecipeEditComponent {
     let recipeImageUrl = '';
     let recipeWebsite = '';
     let recipeServings = null;
-    let recipeAdditionalNotes = '';
+    let recipeAdditionalNotes = ''; 
     let recipeIngredients = new FormArray([]);
     let recipeInstructions = new FormArray([]);
+    let recipeMealType = '';
+    let recipeCategories: number[] = [];
 
     if (this.editMode) {
       recipeName = this.recipe.getName();
@@ -96,6 +108,8 @@ export class RecipeEditComponent {
       recipeAdditionalNotes = this.recipe.getAdditionalNotes();
       recipeWebsite = this.recipe.getWebsite();
       recipeServings = this.recipe.getServings();
+      recipeMealType = this.recipe.getMealType() || '';   
+      recipeCategories = this.recipe.getCategories() || []; 
       
       if (this.recipe['ingredients']) {
         for (let ingredient of this.recipe.getIngredients()) {
@@ -106,6 +120,7 @@ export class RecipeEditComponent {
           );
         }
       }
+
       for (let instruction of this.recipe.getInstructions()) {
         recipeInstructions.push(
           new FormGroup({
@@ -113,6 +128,9 @@ export class RecipeEditComponent {
           })
         )
       }
+
+      //sets selected categories
+      this.selectedCategories = recipeCategories;
     }
 
     this.recipeForm = new FormGroup({
@@ -123,11 +141,27 @@ export class RecipeEditComponent {
       'ingredients': recipeIngredients,
       'instructions': recipeInstructions,
       'servings': new FormControl(recipeServings, Validators.min(1)),
+      'mealType': new FormControl(recipeMealType, Validators.required),
+      'categories': new FormControl(recipeCategories),
     });
 
     this.resizeInstructions();
     
+  }
 
+  onCategoryChange(event: Event, category: Category) {
+    
+    const inputElement = event.target as HTMLInputElement;
+    if(!inputElement || inputElement.type !== 'checkbox'){
+      
+      return;
+    } 
+
+    if (inputElement.checked){
+      this.selectedCategories.push(category.id);
+    } else{
+      this.selectedCategories = this.selectedCategories.filter(c => c !== category.id);
+    }
   }
 
   //resize instruction in initForm
@@ -260,6 +294,23 @@ export class RecipeEditComponent {
         this.errorMessage = 'Failed to parse recipe. Please check the URL or try again later.';
       }
     )
+  }
+
+  //Get all categories from the backend
+  getCategories(): void {
+    this.categoryService.getCategories().subscribe(
+      (data) => {
+        this.categories = data;
+        console.log(this.categories);
+      },
+      (error) => {
+        console.error('Error fetching categories', error);
+      }
+    )
+  }
+
+  isCategorySelected(category: Category): boolean {
+    return this.selectedCategories.some(c => c === category.id);
   }
 
 }

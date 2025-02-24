@@ -31,10 +31,12 @@ export class RecipeService {
                             recipeData.name,
                             recipeData.ingredients,
                             recipeData.instructions,
+                            recipeData.mealType,
                             recipeData.additional_notes,
                             recipeData.servings,
                             recipeData.image_url,
-                            recipeData.webstie
+                            recipeData.website,
+                            recipeData.categories,
                         );
                     });
                 })
@@ -50,10 +52,12 @@ export class RecipeService {
                     recipeData.name,
                     recipeData.ingredients,
                     recipeData.instructions,
+                    recipeData.mealType,
                     recipeData.additional_notes,
                     recipeData.servings,
                     recipeData.image_url,
-                    recipeData.website
+                    recipeData.website,
+                    recipeData.categories,
                 );
             })
         );

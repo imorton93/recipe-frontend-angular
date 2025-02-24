@@ -1,9 +1,10 @@
 .recipe-card {
     position: relative;
-    background-color: white;
+    background-color: #f5f5dc;
     border-radius: 12px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     font-family: 'Poppins', sans-serif;
+    padding: 5px;
   
     .recipe-title {
       font-family: 'Pacifico', cursive;
@@ -53,4 +54,8 @@
     max-height: 100px; 
     object-fit: cover; 
     border-radius: 5px; 
+}
+
+.manage-button{
+  margin: 5px;
 }

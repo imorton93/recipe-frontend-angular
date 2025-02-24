@@ -1,3 +1,4 @@
+import { Category } from "../shared/category.model";
 import { Ingredient } from "../shared/ingredient.model";
 
 export class Recipe {
@@ -9,25 +10,31 @@ export class Recipe {
     private servings?: number;
     private image_url?: string;
     private website?: string;
+    private mealType: string;
+    private categories: number[]; //field for categories recipe is part of
     
     constructor(
         id: number | null = null,
         name: string,
         ingredients: Ingredient[],
         instructions: string[],
+        mealType: string,
         additional_notes?: string,
         servings?: number,
         image_url?: string,
-        website?: string
+        website?: string,
+        categories: number[] = [],
     ) {
         this.id = id;
         this.name = name;
         this.ingredients = ingredients;
         this.instructions = instructions;
+        this.mealType = mealType;
         this.additional_notes = additional_notes;
         this.servings = servings;
         this.image_url = image_url;
         this.website = website;
+        this.categories = categories;
     }
 
     public getId(): number {
@@ -44,6 +51,14 @@ export class Recipe {
 
     public getInstructions(): string[] {
         return this.instructions;
+    }
+
+    public getMealType(): string {
+        return this.mealType;
+    }
+
+    public getCategories(): number[] {
+        return this.categories;
     }
 
     public getAdditionalNotes(): string {
@@ -70,6 +85,7 @@ export class Recipe {
         }
         return this.website;
     }
+
 
     public setName(newName: string): void {
         this.name = newName;
@@ -99,5 +115,12 @@ export class Recipe {
         this.website = newWebsite;
     }
 
+    public setMealType(newMealType: string): void {
+        this.mealType = newMealType;
+    }
+
+    public setCategories(newCategories: number[]): void {
+        this.categories = newCategories;
+    }
 
 }

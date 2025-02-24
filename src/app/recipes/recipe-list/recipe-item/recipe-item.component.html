@@ -1,18 +1,18 @@
 <a
     style="cursor: pointer;"
     [routerLink]="[recipe.getId()]"
-    class="list-group-item clearfix"
+    class="recipe-item"
     routerLinkActive="active"
     >
     <div class="pull-left">
-        <h4 class="list-group-item-heading">{{ recipe.getName() }}</h4>
+        <h4 class="recipe-title">{{ recipe.getName() }}</h4>
     </div>
     <span class="pull-right">
       <img
         *ngIf="recipe.getImageUrl() !== ''"
         [src]="recipe.getImageUrl() "
         alt="{{ recipe.getName() }}"
-        class="img-responsive"
+        class="recipe-image"
         style="max-height: 50px;">
     </span>
 </a>
