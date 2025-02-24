@@ -14,7 +14,7 @@ import { CategoryService } from '../../shared/category.service';
 })
 export class RecipeListComponent implements OnDestroy {
   recipes: Recipe[] = [];
-  subscription: Subscription;
+  subscription: Subscription = new Subscription();
   selectedDisplay: string = 'all';
   meals: string[] = ["Breakfast", "Lunch", "Dinner", "Snack", "Dessert", "Drinks"];
   mealOpen: boolean = false;
@@ -27,9 +27,18 @@ export class RecipeListComponent implements OnDestroy {
 
 
   ngOnInit() {
-    this.subscription = this.recipeService.recipesChanged$.subscribe(() => {
-      this.fetchRecipes();
-    });
+    this.subscription.add(
+      this.recipeService.recipesChanged$.subscribe(() => {
+        this.fetchRecipes();
+      })
+    );
+
+
+    this.subscription.add(
+      this.categoryService.categoriesChanged$.subscribe(() => {
+        this.fetchCategories();
+      })
+    );
 
     this.fetchRecipes();
     this.fetchCategories();
@@ -39,7 +48,6 @@ export class RecipeListComponent implements OnDestroy {
   fetchRecipes(){
     this.recipeService.getRecipes().subscribe((data: Recipe[]) => {
       this.recipes = data;
-      console.log(this.recipes);
     });
   }
 
@@ -103,6 +111,11 @@ export class RecipeListComponent implements OnDestroy {
 
   filterRecipesByCategory(category: Category): Recipe[] {
     return this.recipes.filter(r => r.getCategories().includes(category.id));
+  }
+
+  onEditCategories(){
+    console.log("edit categories");
+    this.router.navigate(['categories'], {relativeTo: this.route});
   }
 
 }
