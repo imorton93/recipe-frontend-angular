@@ -72,4 +72,8 @@ export class CategoriesEditComponent {
     this.router.navigate(['../'], {relativeTo: this.route});
   }
 
+  invalidInputs(): boolean{
+    return this.categories.some(cat => cat.name.trim() === '');
+  }
+
 }

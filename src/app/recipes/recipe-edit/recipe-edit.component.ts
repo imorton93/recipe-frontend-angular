@@ -69,7 +69,7 @@ export class RecipeEditComponent {
     this.recipe.setMealType(this.recipeForm.value['mealType']);
     console.log("The selected categories: ",this.selectedCategories)
     this.recipe.setCategories(this.selectedCategories);
-    
+    console.log(this.recipe);
     if (this.editMode){
       console.log('Recipe that is being sent', this.recipe)
       this.recipeService.updateRecipe(this.id, this.recipe).subscribe(
