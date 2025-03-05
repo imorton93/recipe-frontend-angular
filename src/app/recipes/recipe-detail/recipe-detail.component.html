@@ -15,7 +15,13 @@
 
 
 <div class="card recipe-card p-4" *ngIf="recipe">
-
+    <i
+        class="fa"
+        [ngClass]="{'fa-heart': recipe.favorite, 'fa-heart-o': !recipe.favorite}"
+        (click)="toggleFavorite()"
+        title="Toggle Favorite"
+    >
+    </i>
 
     <h1 class="recipe-title">{{ recipe.getName() }}</h1>
     <p class="meta-info" *ngIf="recipe.getServings() !== null" >Serves: {{ recipe.getServings() }} | Meal: {{ recipe.getMealType() }}</p>

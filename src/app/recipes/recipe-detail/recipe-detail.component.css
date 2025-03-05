@@ -59,3 +59,20 @@
 .manage-button{
   margin: 5px;
 }
+
+.fa {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  font-size: 24px;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.fa-heart {
+  color: red; /* Filled heart */
+}
+
+.fa-heart-o {
+  color: gray; /* Empty heart */
+}

@@ -42,12 +42,23 @@ export class RecipeDetailComponent {
   onDeleteRecipe(){
     this.recipeService.deleteRecipe(this.id).subscribe(
       response => {
-        console.log("Recipe deleted successfully", response);
+        // console.log("Recipe deleted successfully", response);
         this.recipeService.notifyRecipesChanged();
         this.router.navigate(['/recipes']);
       }
     );
     
+  }
+
+  toggleFavorite() {
+    if (this.recipe) {
+      this.recipe.setFavorite(!this.recipe.getFavorite());
+      this.recipeService.updateRecipe(this.recipe.getId(), this.recipe).subscribe(
+        response => {
+          this.recipeService.notifyRecipesChanged();
+        }
+      )
+    }
   }
 
 }

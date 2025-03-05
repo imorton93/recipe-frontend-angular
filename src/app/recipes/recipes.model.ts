@@ -12,6 +12,7 @@ export class Recipe {
     private website?: string;
     private mealType: string;
     private categories: number[]; //field for categories recipe is part of
+    private favorite : boolean;
     
     constructor(
         id: number | null = null,
@@ -19,6 +20,7 @@ export class Recipe {
         ingredients: Ingredient[],
         instructions: string[],
         mealType: string,
+        favorite: boolean,
         additional_notes?: string,
         servings?: number,
         image_url?: string,
@@ -35,6 +37,7 @@ export class Recipe {
         this.image_url = image_url;
         this.website = website;
         this.categories = categories;
+        this.favorite = favorite;
     }
 
     public getId(): number {
@@ -86,6 +89,10 @@ export class Recipe {
         return this.website;
     }
 
+    public getFavorite(): boolean {
+        return this.favorite;
+    }
+
 
     public setName(newName: string): void {
         this.name = newName;
@@ -121,6 +128,10 @@ export class Recipe {
 
     public setCategories(newCategories: number[]): void {
         this.categories = newCategories;
+    }
+
+    public setFavorite(isFavorite: boolean): void {
+        this.favorite = isFavorite;
     }
 
 }

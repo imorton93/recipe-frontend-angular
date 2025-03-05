@@ -14,6 +14,7 @@ import { CategoryService } from '../../shared/category.service';
 })
 export class RecipeListComponent implements OnDestroy {
   recipes: Recipe[] = [];
+  favoriteRecipes: Recipe[] = [];
   subscription: Subscription = new Subscription();
   selectedDisplay: string = 'all';
   meals: string[] = ["Breakfast", "Lunch", "Dinner", "Snack", "Dessert", "Drinks"];
@@ -48,6 +49,7 @@ export class RecipeListComponent implements OnDestroy {
   fetchRecipes(){
     this.recipeService.getRecipes().subscribe((data: Recipe[]) => {
       this.recipes = data;
+      this.favoriteRecipes = this.recipes.filter(recipe => recipe.getFavorite());
     });
   }
 

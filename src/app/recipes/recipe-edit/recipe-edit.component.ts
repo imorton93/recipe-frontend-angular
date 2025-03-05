@@ -42,7 +42,7 @@ export class RecipeEditComponent {
           }
         )
       }else{
-        this.recipe = new Recipe(null, '', [], [], '', '', null, '', '',[]);
+        this.recipe = new Recipe(null, '', [], [], '', false, '', null, '', '',[]);
         this.initForm();
 
       }
@@ -67,6 +67,7 @@ export class RecipeEditComponent {
     this.recipe.setImageUrl(this.recipeForm.value['imagePath']);
     this.recipe.setWebsite(this.recipeForm.value['website']);
     this.recipe.setMealType(this.recipeForm.value['mealType']);
+    this.recipe.setFavorite(false); // !!!!!!! NEED TO BE CHANGED FOR INPUT !!!!!!!
     console.log("The selected categories: ",this.selectedCategories)
     this.recipe.setCategories(this.selectedCategories);
     console.log(this.recipe);
@@ -101,6 +102,7 @@ export class RecipeEditComponent {
     let recipeInstructions = new FormArray([]);
     let recipeMealType = '';
     let recipeCategories: number[] = [];
+    let recipeFavorite = false;
 
     if (this.editMode) {
       recipeName = this.recipe.getName();
@@ -110,6 +112,7 @@ export class RecipeEditComponent {
       recipeServings = this.recipe.getServings();
       recipeMealType = this.recipe.getMealType() || '';   
       recipeCategories = this.recipe.getCategories() || []; 
+      recipeFavorite = this.recipe.getFavorite();
       
       if (this.recipe['ingredients']) {
         for (let ingredient of this.recipe.getIngredients()) {

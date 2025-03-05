@@ -75,3 +75,16 @@
       </div>
     </div>
   </div>
+
+
+
+  <!-- Display all Recipes  -->
+  <div class="row">
+    <div class="col-xs-12" *ngIf="selectedDisplay === 'favorites'">
+      <app-recipe-item 
+        *ngFor="let recipeEl of favoriteRecipes; let i = index" 
+        [recipe]="recipeEl" 
+        [index]="i"
+      ></app-recipe-item>
+    </div>
+  </div>
