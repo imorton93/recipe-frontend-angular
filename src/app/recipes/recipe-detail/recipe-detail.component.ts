@@ -12,6 +12,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 export class RecipeDetailComponent {
   recipe: Recipe;
   id: number;
+  confirmDeleteRecipe = false;
 
 
   constructor(private recipeService: RecipeService, private route: ActivatedRoute, private router: Router) { }
@@ -32,6 +33,10 @@ export class RecipeDetailComponent {
             }
           );
     });
+  }
+
+  toggleConfirmDeleteRecipe() {
+    this.confirmDeleteRecipe = !this.confirmDeleteRecipe;
   }
 
   onEditRecipe() {

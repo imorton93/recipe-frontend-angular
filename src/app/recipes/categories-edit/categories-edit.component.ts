@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CategoryService } from '../../shared/category.service';
 import { Category } from '../../shared/category.model';
+import * as bootstrap from 'bootstrap';
 
 @Component({
   selector: 'app-categories-edit',
@@ -10,6 +11,7 @@ import { Category } from '../../shared/category.model';
 })
 export class CategoriesEditComponent {
   categories: Category[] = [];
+  confirmDeleteIndex: number | null = null;
 
   constructor(private route: ActivatedRoute, private router: Router, private categoryService: CategoryService){}
 
@@ -29,6 +31,9 @@ export class CategoriesEditComponent {
     )
   }
 
+  toggleConfirmDelete(index: number) {
+    this.confirmDeleteIndex = this.confirmDeleteIndex === index ? null : index;
+  }
 
   //Delete a category
   onDeleteCategory(index: number, id?: number){
@@ -45,7 +50,9 @@ export class CategoriesEditComponent {
     } else{
       //If the category was just added and is not saved in backend, therefore no id
       this.categories.splice(index, 1);
+      
     }
+    this.confirmDeleteIndex = null;
   }
 
 

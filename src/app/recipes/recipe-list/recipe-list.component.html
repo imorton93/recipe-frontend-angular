@@ -1,23 +1,24 @@
- <div class="row">
-    <div class="col-xs-12">
-      <button class="btn btn-success" (click)="onNewRecipe()">New Recipe</button>
-      <button class="btn btn-success pull-right" (click)="onEditCategories()">Edit Categories</button>
-    </div>
-  </div>
-  <hr>
-
+ <div class="row sticky-top p-2" style="z-index: 1040;">
   <div class="row">
-    <div class="col-xs-12 text-center">
-      <!-- Button Group -->
-      <div class="btn-group btn-group-justified">
-        <button class="btn btn-primary " (click)="selectDisplay('all')" [class.active]="selectedDisplay === 'all'">All</button>
-        <button class="btn btn-primary " (click)="selectDisplay('meals')" [class.active]="selectedDisplay === 'meals'">Meals</button>
-        <button class="btn btn-primary " (click)="selectDisplay('categories')" [class.active]="selectedDisplay === 'categories'">Categories</button>
-        <button class="btn btn-primary " (click)="selectDisplay('favorites')" [class.active]="selectedDisplay === 'favorites'">Favorites</button>
+      <div class="col-xs-12">
+        <button class="btn btn-success" (click)="onNewRecipe()">New Recipe</button>
+        <button class="btn btn-success pull-right" (click)="onEditCategories()">Edit Categories</button>
+      </div>
+    </div>
+    <hr>
+
+    <div class="row">
+      <div class="col-xs-12 text-center">
+        <!-- Button Group -->
+        <div class="btn-group btn-group-justified">
+          <button class="btn btn-primary " (click)="selectDisplay('all')" [class.active]="selectedDisplay === 'all'">All</button>
+          <button class="btn btn-primary " (click)="selectDisplay('meals')" [class.active]="selectedDisplay === 'meals'">Meals</button>
+          <button class="btn btn-primary " (click)="selectDisplay('categories')" [class.active]="selectedDisplay === 'categories'">Categories</button>
+          <button class="btn btn-primary " (click)="selectDisplay('favorites')" [class.active]="selectedDisplay === 'favorites'">Favorites</button>
+        </div>
       </div>
     </div>
   </div>
-
 
   <hr>
 

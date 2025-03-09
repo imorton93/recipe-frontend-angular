@@ -1,14 +1,20 @@
 <div class="row">
-    <div class="col-xs-12">
+    <div class="col-12">
         <div class="btn-group" appDropdown>
-            <button type="button" class="btn btn-primary dropdown-toggle manage-button">
-                Manage Recipe <span class="caret"></span>
+            <button type="button" class="btn btn-primary dropdown-toggle manage-button" data-bs-toggle="dropdown" aria-expanded="false">
+                Manage Recipe
             </button>
             <ul class="dropdown-menu">
                 <!-- <li><a (click)="onAddToShoppingList()" style="cursor: pointer;">To Shopping List</a></li> -->
-                <li><a style="cursor: pointer;" (click)="onEditRecipe()">Edit Recipe</a></li>
-                <li><a style="cursor: pointer;" (click)="onDeleteRecipe()">Delete Recipe</a></li>
+                <li><a class="dropdown-item" style="cursor: pointer;" (click)="onEditRecipe()">Edit Recipe</a></li>
+                <li><a class="dropdown-item" style="cursor: pointer;" (click)="toggleConfirmDeleteRecipe()">Delete Recipe</a></li>
             </ul>
+        </div>
+
+        <div *ngIf="confirmDeleteRecipe === true" class="text-center">
+            <p>Confirm Delete?</p>
+            <button class="btn btn-danger btn-sm me-2" (click)="onDeleteRecipe()">Yes</button>
+            <button class="btn btn-secondary btn-sm" (click)="toggleConfirmDeleteRecipe()">No</button>
         </div>
     </div>
 </div>
@@ -17,7 +23,7 @@
 <div class="card recipe-card p-4" *ngIf="recipe">
     <i
         class="fa"
-        [ngClass]="{'fa-heart': recipe.favorite, 'fa-heart-o': !recipe.favorite}"
+        [ngClass]="{'fas fa-heart': recipe.favorite, 'far fa-heart-o': !recipe.favorite}"
         (click)="toggleFavorite()"
         title="Toggle Favorite"
     >

@@ -1,6 +1,6 @@
 
-<div class="d-flex justify-content-center align-items-center vh-100 bg-light">
-  <app-recipe-list></app-recipe-list>
+<div class="px-5 min-vh-100 d-flex flex-column bg-secondary bg-gradient">
+  <app-recipe-list class="w-75 mx-auto"></app-recipe-list>
 </div>
 
 
@@ -8,7 +8,7 @@
 
 <ng-container *ngIf="isModalOpen">
   <div class="modal-backdrop" (click)="onCloseModal()"></div>
-  <div class="modal-content">
+  <div class="modal-content" style="z-index: 1050;">
     <router-outlet></router-outlet>
   </div>
 </ng-container>

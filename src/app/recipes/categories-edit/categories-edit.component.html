@@ -6,9 +6,17 @@
             <input type="text" [(ngModel)]="category.name" class="form-control" placeholder="Category name" [ngClass]="{'invalid-input': category.name.trim() === ''}">
         </div>
         <div class="col-md-2 text-end">
-            <button class="btn btn-danger btn-sm" type="button" (click)="onDeleteCategory(i, category.id)">
+            <button *ngIf="confirmDeleteIndex !== i" class="btn btn-danger btn-sm" type="button" (click)="toggleConfirmDelete(i)">
                 X
             </button>
+            
+            <!-- Inline delete confirmation  -->
+            <div *ngIf="confirmDeleteIndex === i" class="d-inline-block ms-2">
+                <span>Confirm?</span>
+                <button class="btn btn-danger btn-sm ms-1" (click)="onDeleteCategory(i, category.id)">Yes</button>
+                <button class="btn btn-secondary btn-sm ms-1" (click)="confirmDeleteIndex = null">No</button>
+            </div>
+
         </div>
     </div>
 </div>
