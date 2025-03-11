@@ -93,6 +93,9 @@ export class Recipe {
         return this.favorite;
     }
 
+    public setId(newId: number): void {
+        this.id = newId;
+    }
 
     public setName(newName: string): void {
         this.name = newName;

@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "course-project-starting-project": {
+    "recipe-storage-app": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -23,7 +23,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/course-project-starting-project",
+            "outputPath": "dist/recipe-storage-app",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -60,6 +60,14 @@
               ],
               "outputHashing": "all"
             },
+            "demo": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.demo.ts"
+                }
+              ]
+            },
             "development": {
               "optimization": false,
               "extractLicenses": false,
@@ -72,10 +80,13 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "course-project-starting-project:build:production"
+              "buildTarget": "recipe-storage-app:build:production"
             },
             "development": {
-              "buildTarget": "course-project-starting-project:build:development"
+              "buildTarget": "recipe-storage-app:build:development"
+            },
+            "demo": {
+              "buildTarget": "recipe-storage-app:build:demo"
             }
           },
           "defaultConfiguration": "development"
@@ -83,7 +94,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "buildTarget": "course-project-starting-project:build"
+            "buildTarget": "recipe-storage-app:build"
           }
         },
         "test": {

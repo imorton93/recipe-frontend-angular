@@ -83,7 +83,10 @@ export class RecipeEditComponent {
     } else {
       this.recipeService.addRecipe(this.recipe).subscribe(
         response => {
-          console.log("Recipe added successfully", response);
+          if(!response){
+            alert("Recipe limit reached! You can't add more than 50 recipes in the demo.")
+          }
+
           this.recipeService.notifyRecipesChanged();
           this.onCancel();
         }

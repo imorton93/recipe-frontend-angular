@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CategoryService } from '../../shared/category.service';
 import { Category } from '../../shared/category.model';
 import * as bootstrap from 'bootstrap';
+import { environment } from "../../../environments/environment";
 
 @Component({
   selector: 'app-categories-edit',
@@ -14,6 +15,8 @@ export class CategoriesEditComponent {
   confirmDeleteIndex: number | null = null;
 
   constructor(private route: ActivatedRoute, private router: Router, private categoryService: CategoryService){}
+
+  private readonly MAX_DEMO_CATEGORIES = 50;
 
   ngOnInit(){
     this.getCategories();
@@ -58,7 +61,17 @@ export class CategoriesEditComponent {
 
   //Add a category
   onAddCategory(){
-    this.categories.push({ id: null, name: '' })
+    if(environment.useBackend){
+      this.categories.push({ id: null, name: '' })
+    } else {
+      if(this.categories.length >= this.MAX_DEMO_CATEGORIES) {
+        alert("Category limit reached! You can't add more than 50 categories in the demo.")
+        return;
+      } else{
+        this.categories.push({ id: null, name: ''});
+      }
+    }
+    
   }
 
   onSaveChanges(): void {
