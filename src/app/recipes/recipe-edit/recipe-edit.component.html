@@ -79,7 +79,7 @@
                 id="mealType"
                 formControlName="mealType"
                 name="mealType"
-                [ngClass]="{'invalid-input': recipeForm.get('name').invalid}"
+                [ngClass]="{'invalid-input': recipeForm.get('mealType').invalid}"
             >
             <option value="" disabled>Select a meal type</option>
             <option *ngFor="let type of mealTypes" [value]="type">{{ type }}</option>
